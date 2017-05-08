@@ -16,9 +16,9 @@ spec:
       name: "fsinit-{{.Values.workspace}}"
       labels:
         app: mlboard
-            heritage: "{{ .Release.Service }}"
-            workspace: {{.Values.workspace}}
-            component: fsinit
+        heritage: "{{ .Release.Service }}"
+        workspace: {{.Values.workspace}}
+        component: fsinit
     spec:
       containers:
       - name: fsinit
