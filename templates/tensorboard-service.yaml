@@ -1,22 +1,22 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: "tensorbord-{{.Values.workspace}}"
+  name: "tensorboard-{{.Values.workspace}}"
   labels:
     app: mlboard
     heritage: "{{ .Release.Service }}"
     workspace: {{.Values.workspace}}
-    component: tensorbord
+    component: tensorboard
   annotations:
     helm.sh/created: {{.Release.Time.Seconds | quote }}
 spec:
-  type: {{ .Values.tensorbord.serviceType }}
+  type: {{ .Values.tensorboard.serviceType }}
   ports:
     - port: 6006
-      name: tensorbord
+      name: tensorboard
       targetPort: 6006
   selector:
     app: mlboard
     heritage: "{{ .Release.Service }}"
     workspace: {{.Values.workspace}}
-    component: tensorbord
+    component: tensorboard
