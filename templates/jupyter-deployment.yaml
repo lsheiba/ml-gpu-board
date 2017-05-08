@@ -40,7 +40,7 @@ spec:
           mountPath: "/notebooks/data"
           subPath: {{.Values.workspace}}/data
         - name: data
-          mountPath: "/data/training"
+          mountPath: "/notebooks/training"
           subPath: {{.Values.workspace}}/training
       volumes:
         - name: data

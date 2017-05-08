@@ -6,7 +6,7 @@ metadata:
     app: mlboard
     heritage: "{{ .Release.Service }}"
     workspace: {{.Values.workspace}}
-    component: mlboard
+    component: master
   annotations:
     helm.sh/created: {{.Release.Time.Seconds | quote }}
 spec:
@@ -19,4 +19,4 @@ spec:
     app: mlboard
     heritage: "{{ .Release.Service }}"
     workspace: {{.Values.workspace}}
-    component: mlboard
+    component: master

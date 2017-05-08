@@ -14,7 +14,7 @@ spec:
   template:
     metadata:
       labels:
-        app: ml-board
+        app: mlboard
         heritage: "{{ .Release.Service }}"
         workspace: {{.Values.workspace}}
         component: tensorboard
