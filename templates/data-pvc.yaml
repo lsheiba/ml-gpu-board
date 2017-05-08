@@ -6,6 +6,8 @@ metadata:
     {{- if .Values.volumes.data.storageClass }}
     volume.beta.kubernetes.io/storage-class: {{ .Values.volumes.data.storageClass | quote }}
     {{- end }}
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "1"
   labels:
       app: mlboard
       heritage: "{{ .Release.Service }}"

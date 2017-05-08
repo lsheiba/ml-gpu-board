@@ -7,6 +7,9 @@ metadata:
     heritage: "{{ .Release.Service }}"
     workspace: {{.Values.workspace}}
     component: fsinit
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "2"
 spec:
   template:
     metadata:
@@ -27,6 +30,7 @@ spec:
             mkdir -p "/mlworkspaces/{{.Values.workspace}}/training";
             mkdir -p "/mlworkspaces/{{.Values.workspace}}/src";
             mkdir -p "/mlworkspaces/{{.Values.workspace}}/data";
+            echo "FS init for {{.Values.workspace}} compleate"
         volumeMounts:
         - name: config-volume
           mountPath: /mlworkspaces
