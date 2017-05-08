@@ -24,13 +24,7 @@ spec:
       - name: fsinit
         image: giantswarm/tiny-tools
         imagePullPolicy: IfNotPresent
-        command: ["/bin/sh", "-c"]
-        args:
-          - >
-            mkdir -p "/mlworkspaces/{{.Values.workspace}}/training";
-            mkdir -p "/mlworkspaces/{{.Values.workspace}}/src";
-            mkdir -p "/mlworkspaces/{{.Values.workspace}}/data";
-            echo "FS init for {{.Values.workspace}} compleate"
+        command: ["/bin/sh", "-c","mkdir -p /mlworkspaces/{{.Values.workspace}}/training;mkdir -p /mlworkspaces/{{.Values.workspace}}/src;mkdir -p /mlworkspaces/{{.Values.workspace}}/data;FS init for {{.Values.workspace}} compleate"]
         volumeMounts:
         - name: config-volume
           mountPath: /mlworkspaces
