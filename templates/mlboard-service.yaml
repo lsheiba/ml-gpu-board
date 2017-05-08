@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: "mlboard-{{.Values.workspace}}"
+  labels:
+    app: mlboard
+    heritage: "{{ .Release.Service }}"
+    workspace: {{.Values.workspace}}
+    component: mlboard
+  annotations:
+    helm.sh/created: {{.Release.Time.Seconds | quote }}
+spec:
+  type: {{ .Values.mlboard.serviceType }}
+  ports:
+    - port: 8082
+      name: mlboard
+      targetPort: 8082
+  selector:
+    app: mlboard
+    heritage: "{{ .Release.Service }}"
+    workspace: {{.Values.workspace}}
+    component: mlboard

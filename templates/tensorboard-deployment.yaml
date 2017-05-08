@@ -1,0 +1,44 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: "tensorbord-{{.Values.workspace}}"
+  labels:
+    app: mlboard
+    heritage: "{{ .Release.Service }}"
+    workspace: {{.Values.workspace}}
+    component: tensorboard
+  annotations:
+    helm.sh/created: {{.Release.Time.Seconds | quote }}
+spec:
+  replicas: {{ default 1 .Values.tensorboard.replicas }}
+  template:
+    metadata:
+      labels:
+        app: ml-board
+        heritage: "{{ .Release.Service }}"
+        workspace: {{.Values.workspace}}
+        component: tensorboard
+    spec:
+      containers:
+      - name: tensorboard
+        command: ["tensorboard"]
+        args: ["--logdir","/data/training"]
+        resources:
+          requests:
+            cpu: "{{ .Values.tensorboard.cpu.requests }}"
+            memory: "{{ .Values.tensorboard.memory.requests }}"
+          limits:
+            cpu: "{{ .Values.tensorboard.cpu.limits }}"
+            memory: "{{ .Values.tensorboard.memory.limits }}"
+        image: "{{ printf "%s:%s" .Values.tensorboard.image.Name .Values.tensorboard.image.Tag }}"
+        ports:
+        - containerPort: 6006
+          name: tensorboard
+        volumeMounts:
+        - name: training
+          mountPath: /data/training
+          subPath: training
+      volumes:
+        - name: training
+          persistentVolumeClaim:
+            claimName: "data-{{.Values.workspace}}"

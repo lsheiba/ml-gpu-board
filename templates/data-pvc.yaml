@@ -1,0 +1,28 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: "data-{{.Values.workspace}}"
+  annotations:
+    {{- if .Values.volumes.data.storageClass }}
+    volume.beta.kubernetes.io/storage-class: {{ .Values.volumes.data.storageClass | quote }}
+    {{- end }}
+  labels:
+      app: mlboard
+      heritage: "{{ .Release.Service }}"
+      workspace: {{.Values.workspace}}
+      component: data
+spec:
+  {{- if .Values.volumes.data.storageClass }}
+  storageClassName: {{ .Values.volumes.data.storageClass | quote }}
+  {{- end }}
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: {{ .Values.volumes.data.size | quote }}
+  selector:
+    matchLabels:
+      app: mlboard
+      heritage: "{{ .Release.Service }}"
+      workspace: {{.Values.workspace}}
+      component: data

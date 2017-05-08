@@ -1,0 +1,46 @@
+workspace: test
+
+jupyter:
+  cpu:
+    requests: "100m"
+    limits: "8000m"
+  memory:
+    requests: "64Mi"
+    limits: "16Gi"
+  serviceType: ClusterIP
+  image:
+    Name: lsheiba/tensorflow-ls-devel
+    Tag: latest
+
+tensorboard:
+  cpu:
+    requests: "100m"
+    limits: "1000m"
+  memory:
+    requests: "64Mi"
+    limits: "2Gi"
+  serviceType: ClusterIP
+  image:
+    Name: lsheiba/tensorboard
+    Tag: latest
+
+mlboard:
+  cpu:
+    requests: "100m"
+    limits: "1000m"
+  memory:
+    requests: "64Mi"
+    limits: "2Gi"
+  serviceType: ClusterIP
+  image:
+    Name: kuberlab/mlboard
+    Tag: latest
+
+
+volumes:
+  data:
+    storageClass: standard
+    nfs:
+      server: 192.168.1.55
+      path: "/kuberlab"
+    size: 16Gi

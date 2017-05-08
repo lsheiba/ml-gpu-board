@@ -1,0 +1,36 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: "mlboard-{{.Values.workspace}}"
+  labels:
+    app: mlboard
+    heritage: "{{ .Release.Service }}"
+    workspace: {{.Values.workspace}}
+    component: master
+  annotations:
+    helm.sh/created: {{.Release.Time.Seconds | quote }}
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mlboard
+        heritage: "{{ .Release.Service }}"
+        component: master
+        workspace: {{.Values.workspace}}
+    spec:
+      containers:
+      - name: mlboard
+        command: ["board"]
+        args: ["--workspace","{{.Values.workspace}}"]
+        resources:
+          requests:
+            cpu: "{{ .Values.mlboard.cpu.requests }}"
+            memory: "{{ .Values.mlboard.memory.requests }}"
+          limits:
+            cpu: "{{ .Values.mlboard.cpu.limits }}"
+            memory: "{{ .Values.mlboard.memory.limits }}"
+        image: "{{ printf "%s:%s" .Values.mlboard.image.Name .Values.mlboard.image.Tag }}"
+        ports:
+        - containerPort: 8082
+          name: mlboard

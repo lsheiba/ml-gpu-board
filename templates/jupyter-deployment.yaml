@@ -1,0 +1,49 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: "jupyter-{{.Values.workspace}}"
+  labels:
+    app: mlboard
+    heritage: "{{ .Release.Service }}"
+    workspace: {{.Values.workspace}}
+    component: jupyter
+  annotations:
+    helm.sh/created: {{.Release.Time.Seconds | quote }}
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mlboard
+        heritage: "{{ .Release.Service }}"
+        workspace: {{.Values.workspace}}
+        component: jupyter
+    spec:
+      containers:
+      - name: tensorflow-jupyter
+        resources:
+          requests:
+            cpu: "{{ .Values.jupyter.cpu.requests }}"
+            memory: "{{ .Values.jupyter.memory.requests }}"
+          limits:
+            cpu: "{{ .Values.jupyter.cpu.limits }}"
+            memory: "{{ .Values.jupyter.memory.limits }}"
+        image: "{{ printf "%s:%s" .Values.jupyter.image.Name .Values.jupyter.image.Tag }}"
+        ports:
+        - containerPort: 8888
+          name: jupyter
+        volumeMounts:
+        - name: data
+          mountPath: "/notebooks/src"
+          subPath: src
+        - name: data
+          mountPath: "/notebooks/data"
+          subPath: data
+        - name: data
+          mountPath: "/data/training"
+          subPath: training
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: "data-{{.Values.workspace}}"
+
