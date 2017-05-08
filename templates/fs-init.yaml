@@ -1,0 +1,37 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name:  "fsinit-{{.Values.workspace}}"
+  labels:
+    app: mlboard
+    heritage: "{{ .Release.Service }}"
+    workspace: {{.Values.workspace}}
+    component: fsinit
+spec:
+  template:
+    metadata:
+      name: "fsinit-{{.Values.workspace}}"
+      labels:
+        app: mlboard
+            heritage: "{{ .Release.Service }}"
+            workspace: {{.Values.workspace}}
+            component: fsinit
+    spec:
+      containers:
+      - name: fsinit
+        image: giantswarm/tiny-tools
+        imagePullPolicy: IfNotPresent
+        command: ["/bin/sh", "-c"]
+        args:
+          - >
+            mkdir -p "/mlworkspaces/{{.Values.workspace}}/training";
+            mkdir -p "/mlworkspaces/{{.Values.workspace}}/src";
+            mkdir -p "/mlworkspaces/{{.Values.workspace}}/data";
+        volumeMounts:
+        - name: config-volume
+          mountPath: /mlworkspaces
+      restartPolicy: Never
+      volumes:
+      - name: config-volume
+        persistentVolumeClaim:
+          claimName: "data-{{.Values.workspace}}"

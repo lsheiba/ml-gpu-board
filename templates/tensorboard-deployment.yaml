@@ -37,7 +37,7 @@ spec:
         volumeMounts:
         - name: training
           mountPath: /data/training
-          subPath: training
+          subPath: {{.Values.workspace}}/training
       volumes:
         - name: training
           persistentVolumeClaim:

@@ -20,5 +20,5 @@ spec:
   capacity:
     storage: {{ .Values.volumes.data.size | quote }}
   nfs:
-    path: "{{ printf "%s/%s" .Values.volumes.data.nfs.path .Values.workspace }}"
+    path: {{.Values.volumes.data.nfs.path}}
     server: {{ .Values.volumes.data.nfs.server }}

@@ -35,13 +35,13 @@ spec:
         volumeMounts:
         - name: data
           mountPath: "/notebooks/src"
-          subPath: src
+          subPath: {{.Values.workspace}}/src
         - name: data
           mountPath: "/notebooks/data"
-          subPath: data
+          subPath: {{.Values.workspace}}/data
         - name: data
           mountPath: "/data/training"
-          subPath: training
+          subPath: {{.Values.workspace}}/training
       volumes:
         - name: data
           persistentVolumeClaim:
