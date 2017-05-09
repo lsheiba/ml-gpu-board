@@ -1,4 +1,4 @@
-workspace: test
+workspace: lstest
 
 jupyter:
   cpu:
@@ -9,7 +9,7 @@ jupyter:
     limits: "16Gi"
   serviceType: ClusterIP
   image:
-    Name: lsheiba/tensorflow-ls-devel
+    Name: lsheiba/tf-jupyter-devel-gpu
     Tag: latest
 
 tensorboard:
