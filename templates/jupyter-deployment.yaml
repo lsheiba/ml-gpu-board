@@ -25,13 +25,18 @@ spec:
           requests:
             cpu: "{{ .Values.jupyter.cpu.requests }}"
             memory: "{{ .Values.jupyter.memory.requests }}"
+            alpha.kubernetes.io/nvidia-gpu: 1
           limits:
             cpu: "{{ .Values.jupyter.cpu.limits }}"
             memory: "{{ .Values.jupyter.memory.limits }}"
+            alpha.kubernetes.io/nvidia-gpu: 1
         image: "{{ printf "%s:%s" .Values.jupyter.image.Name .Values.jupyter.image.Tag }}"
         ports:
         - containerPort: 8888
           name: jupyter
+        env:
+        - name: LD_LIBRARY_PATH
+          value: "$LD_LIBRARY_PATH:/usr/lib/nvidia:/usr/lib/cuda:/usr/local/cuda/extras/CUPTI/lib64"        
         volumeMounts:
         - name: data
           mountPath: "/notebooks/src"
@@ -42,8 +47,32 @@ spec:
         - name: data
           mountPath: "/notebooks/training"
           subPath: {{.Values.workspace}}/training
+        - mountPath: /usr/local/nvidia/bin
+          name: bin
+        - mountPath: /usr/lib/nvidia
+          name: lib
+        - mountPath: /usr/lib/cuda
+          name: libcuda
+        - mountPath: /usr/local/cuda/extras/CUPTI/lib64
+          name: capti
+        - mountPath: /usr/lib/cuda/cudnn
+          name: cudnn
       volumes:
-        - name: data
-          persistentVolumeClaim:
-            claimName: "data-{{.Values.workspace}}"
-
+      - name: data
+        persistentVolumeClaim:
+          claimName: "data-{{.Values.workspace}}"
+      - name: bin
+        hostPath: 
+          path: /usr/lib/nvidia-375/bin
+      - name: lib
+        hostPath: 
+          path: /usr/lib/nvidia-375
+      - name: libcuda
+        hostPath: 
+          path: /usr/lib/x86_64-linux-gnu        
+      - name: capti
+        hostPath:
+          path: /usr/local/cuda/extras/CUPTI/lib64
+      - name: cudnn
+        hostPath:
+          path: /usr/local/cuda/lib64
