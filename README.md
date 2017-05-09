@@ -1,1 +1,1 @@
-# ml-board
+# ml-gpu-board
