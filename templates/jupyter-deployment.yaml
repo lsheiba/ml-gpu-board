@@ -20,7 +20,7 @@ spec:
         component: jupyter
     spec:
       containers:
-      - name: tensorflow-jupyter
+      - name: tf-jupyter-gpu
         resources:
           requests:
             cpu: "{{ .Values.jupyter.cpu.requests }}"
