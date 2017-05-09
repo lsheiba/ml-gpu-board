@@ -1,14 +1,16 @@
-name: mlboard
-home: https://github.com/kuberlab-catalog/ml-board
+name: mlgpuboard
+home: https://github.com/lsheiba/ml-gpu-board
 version: 1.0.0
-description: ML Board
+description: MLGPU Board
 sources:
-  - https://github.com/kuberlab-catalog/ml-board
+  - https://github.com/lsheiba/ml-gpu-board
 maintainers:
-  - name: Alexander Gunin
+  - name: Leonard Sheiba
 keywords:
   - keubernetes
   - tensorflow
   - ml
   - kuberlab
+  - gpu
+  - nvidia
 icon: https://dev.kuberlab.io/favicon.ico
